@@ -1,0 +1,29 @@
+class Solution {
+public:
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        queue<TreeNode* > orig;
+        queue<TreeNode* > clone;
+        orig.push(original);
+        clone.push(cloned);
+        while(!orig.empty())
+        {
+            TreeNode* orignal_front = orig.front();
+            TreeNode* cloned_front = clone.front();
+
+            if(cloned_front->val==target->val) return cloned_front;
+
+            orig.pop();
+            clone.pop();
+
+            if( orignal_front->left!=nullptr ){
+                orig.push(orignal_front->left);
+                clone.push(cloned_front->left);
+            }
+            if( orignal_front->right!=nullptr) {
+                orig.push(orignal_front->right);
+                clone.push(cloned_front->right);
+            }
+        }
+        return nullptr;
+    }
+};
