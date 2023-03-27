@@ -1,0 +1,27 @@
+class Solution {
+public:
+
+    vector<int> lastnodes;
+    int height(TreeNode* root){
+        if(root==nullptr) return 0;
+        return 1+max(height(root->left),height(root->right));
+    }
+
+    void last_nodes(TreeNode* root, int curr_height, int total_depth)
+    {
+        if(root==nullptr) return;
+        curr_height++;
+        if(curr_height == total_depth) lastnodes.push_back(root->val);
+        
+        last_nodes(root->left, curr_height, total_depth);
+        last_nodes(root->right, curr_height, total_depth);
+    }
+    
+    int deepestLeavesSum(TreeNode* root) {
+        int h = height(root);
+        last_nodes(root, 0, h);
+        int ans=0;
+        for(int i = 0 ; i < lastnodes.size() ; i++) ans+=lastnodes[i];
+        return ans;
+    }
+};
