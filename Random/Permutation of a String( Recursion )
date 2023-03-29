@@ -1,0 +1,29 @@
+class Solution
+{
+	public:
+	
+	    void help( string S, int index, set<string>& ans)
+	    {
+	        if(index>=S.length())
+	        {
+	            ans.insert(S);
+	            return;
+	        }
+	        for(int i = index ; i<S.length() ;i++)
+	        {
+	            swap( S[index], S[i] );
+	            help( S , index+1 , ans );
+	            swap( S[index] , S[i] );
+	        }
+	    }
+	
+		vector<string>find_permutation(string S)
+		{
+		    set<string> ans;
+		    help( S, 0, ans);
+		    vector<string> ii;
+		    
+		    for(auto i:ans) ii.push_back(i);
+		    return ii;
+		}
+};
