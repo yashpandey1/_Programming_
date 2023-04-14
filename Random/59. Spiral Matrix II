@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        int count=1;
+        vector<vector<int>> ans(n,vector<int>(n,0));
+        int top=0;
+        int left=0;
+        int right=n;
+        int bottom=n;
+
+        while( top < bottom and left < right )
+        {
+            for(int i=left;i<right;i++){
+                ans[top][i]=count;
+                count++;
+            }
+            top++;
+            for(int i=top;i<bottom;i++){
+                ans[i][right-1]=count;
+                count++;
+            }
+            right--;
+
+            //check for the out of bound condition to prevent extra loop
+            if(!( top < bottom and left < right)) break;
+
+
+            for(int i=right-1;i>=left;i--){
+                ans[bottom-1][i]=count;
+                count++;
+            }
+            bottom--;
+            for(int i=bottom-1;i>=top;i--){
+                ans[i][left]=count;
+                count++;
+            }
+            left++;
+        }
+        return ans;
+    }
+};
