@@ -1,0 +1,21 @@
+#define mod 1000000007
+class Solution{
+public:
+
+    long int help(int n, vector<long int>& dp)
+    {
+         //base condition
+        if(n==1) return 0;
+        if(n==2) return 1;
+        
+        if(dp[n]!=-1) return dp[n];
+        
+        long int ans = ( ((n-1)%mod)*( (help(n-1, dp)%mod + help(n-2, dp)%mod) )%mod)%mod;
+        dp[n]=ans;
+        return dp[n];
+    }
+    long int disarrange(int n){
+       vector<long int> dp(n+1, -1);
+       return help(n, dp);
+    }
+};
