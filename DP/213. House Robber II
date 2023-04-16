@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+    int solve(vector<int>& nums, int index, vector<int>& dp)
+    {
+        if(index>=nums.size()) return 0;
+        if(dp[index]!=-1) return dp[index];
+        int take = nums[index] + solve(nums, index+2, dp);
+        int not_take = solve(nums, index+1, dp);
+        dp[index] = max(take, not_take);
+        return dp[index];
+    }
+    int rob(vector<int>& nums) {
+
+        if(nums.size()==1) return nums[0];
+        vector<int> first;
+        vector<int> second;
+        vector<int> dp(nums.size()-1, -1);
+
+        // Excluding both the problematic terms i.e. first ad last element;
+        for(int i=0;i<nums.size();i++)
+        {
+            //excluding last element
+            if(i!=nums.size()-1) first.push_back(nums[i]);
+
+            //excluding first element
+            if(i!=0) second.push_back(nums[i]);
+        }
+
+        int ans1=solve(first, 0, dp);
+        for(int i=0;i<dp.size();i++) dp[i]=-1;
+        int ans2=solve(second, 0, dp);
+
+        return max(ans1, ans2);
+    }
+};
