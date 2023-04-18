@@ -1,0 +1,47 @@
+class Solution {
+public:
+bool is_safe(int row, int col, vector<string>& arr, int n)
+    {
+        //we need to only check for two queens in a single colmn and not in same row, as we are moving forward as soon as we put a queen in a row.
+        //so checking only for same colmn
+
+        for(int i=row;i>=0;i--)
+            if(arr[i][col]=='Q')
+                return false;
+
+        // checking for upper left diagonal
+        for( int i=row, j=col ; i >=0 and j>=0 ; i--, j--)
+            if( arr[i][j]=='Q') return false;
+
+        // checking for upper right diagonal
+        for(int i=row, j=col; i>=0 and j<n ; i--, j++)
+            if( arr[i][j]=='Q') return false;
+
+        return true;
+    }
+
+    void solve(int n, int row, vector<string>& arr, vector<vector<string>>& ans )
+    {
+        if(row==n){
+            ans.push_back(arr);
+            return;
+        }
+
+        for(int col=0; col<n; col++)
+        {
+            if(is_safe(row, col, arr, n)){
+                arr[row][col] = 'Q';
+                solve(n, row+1, arr, ans);
+                
+                //when coming back from a node we need to remove the queen.
+                arr[row][col] = '.';
+            }
+        }
+    }
+    int totalNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> arr(n, string(n, '.'));
+        solve(n , 0, arr, ans);
+        return ans.size();
+    }
+};
